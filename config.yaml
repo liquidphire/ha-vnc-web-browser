@@ -1,5 +1,5 @@
-name: "VNC Web Browser"
-version: "0.12.0"
+name: "VNC Web Browser (Asian Language and Emoji Support)"
+version: "0.12.3"
 slug: "vnc_web_browser"
 description: "Display multiple web pages through VNC"
 url: "https://github.com/mindfreeze/ha-vnc-web-browser"
