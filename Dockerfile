@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     xauth \
     jq \
     dbus-x11 \
-    x11-xserver-utils \
+    fonts-noto-cjk \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
