@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     jq \
     dbus-x11 \
     fonts-noto-cjk \
+    fonts-noto \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
