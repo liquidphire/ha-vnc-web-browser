@@ -1,4 +1,5 @@
-FROM debian:bullseye-slim
+# Debian 13 ships Chromium 151.x (bullseye froze at 120 and is EOL for chromium).
+FROM debian:trixie-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
@@ -10,8 +11,15 @@ RUN apt-get update && apt-get install -y \
     xauth \
     jq \
     dbus-x11 \
+    x11-xserver-utils \
+    socat \
+    procps \
+    curl \
+    python3 \
+    tini \
     fonts-noto-cjk \
     fonts-noto \
+    fonts-noto-color-emoji \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,10 +36,11 @@ RUN mkdir -p /home/vnc_user/.vnc
 USER root
 COPY startup.sh /home/vnc_user/startup.sh
 COPY run_vnc.sh /home/vnc_user/run_vnc.sh
+COPY cdp_helper.py /home/vnc_user/cdp_helper.py
 COPY chromium_preferences.json /home/vnc_user/chromium_preferences.json
 COPY xstartup /home/vnc_user/.vnc/xstartup
-RUN chown vnc_user:vnc_user /home/vnc_user/startup.sh /home/vnc_user/run_vnc.sh /home/vnc_user/.vnc/xstartup && \
-    chmod +x /home/vnc_user/startup.sh /home/vnc_user/run_vnc.sh /home/vnc_user/.vnc/xstartup
+RUN chown vnc_user:vnc_user /home/vnc_user/startup.sh /home/vnc_user/run_vnc.sh /home/vnc_user/cdp_helper.py /home/vnc_user/chromium_preferences.json /home/vnc_user/.vnc/xstartup && \
+    chmod +x /home/vnc_user/startup.sh /home/vnc_user/run_vnc.sh /home/vnc_user/cdp_helper.py /home/vnc_user/.vnc/xstartup
 
 WORKDIR /home/vnc_user
 
@@ -43,10 +52,10 @@ LABEL \
     io.hass.name="VNC Web Browser" \
     io.hass.description="Display multiple web pages through VNC" \
     io.hass.type="addon" \
-    io.hass.version="0.11.0" \
+    io.hass.version="0.16.0" \
     io.hass.arch="aarch64|amd64|armhf|armv7"
 
-# Expose 8 sequential ports
-EXPOSE 5901/tcp 5902/tcp 5903/tcp 5904/tcp
+# Expose VNC ports (one per display) and optional CDP ports (Chrome DevTools Protocol)
+EXPOSE 5901/tcp 5902/tcp 5903/tcp 5904/tcp 9221/tcp 9222/tcp 9223/tcp 9224/tcp
 
-CMD ["/home/vnc_user/startup.sh"]
+CMD ["/usr/bin/tini", "--", "/home/vnc_user/startup.sh"]
