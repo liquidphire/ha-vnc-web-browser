@@ -1,8 +1,8 @@
 name: "VNC Web Browser (Asian Language and Emoji Support)"
 version: "0.16.1"
 slug: "vnc_web_browser"
-description: "Display multiple web pages through VNC, with optional Chrome DevTools Protocol access"
-url: "https://github.com/mindfreeze/ha-vnc-web-browser"
+description: "Display multiple web pages through VNC, with Chinese/Japanese/Korean and color emoji fonts, and optional Chrome DevTools Protocol access"
+url: "https://github.com/liquidphire/ha-vnc-web-browser"
 arch:
   - aarch64
   - amd64

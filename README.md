@@ -1,4 +1,22 @@
-# Home Assistant VNC Web Browser Addon
+# Home Assistant VNC Web Browser Addon (Asian Language and Emoji Support)
+
+> **This is a fork** of [MindFreeze/ha-vnc-web-browser](https://github.com/MindFreeze/ha-vnc-web-browser) that adds fonts for **Chinese, Japanese and Korean text** and **color emoji**. Everything else is unchanged upstream code.
+
+## What this fork adds
+
+The upstream container ships only Latin-script fonts (DejaVu, Liberation and the X core fonts), so Chromium inside it renders CJK characters and emoji as empty boxes ("tofu"). This happens no matter what device the VNC client runs on: the page is drawn inside the container, and the client only sees pixels.
+
+This fork installs these in the image:
+
+| Package | Covers |
+|---------|--------|
+| `fonts-noto-cjk` | Chinese (Simplified and Traditional), Japanese, Korean |
+| `fonts-noto` | Noto fonts for most other scripts |
+| `fonts-noto-color-emoji` | Color emoji |
+
+Requests to add these upstream ([#10](https://github.com/MindFreeze/ha-vnc-web-browser/issues/10), [#9](https://github.com/MindFreeze/ha-vnc-web-browser/issues/9)) were closed as out of scope, so they live here.
+
+The fonts make the image larger and the local build in Home Assistant slower.
 
 This addon allows you to display multiple web pages through VNC connections. Each web page runs in its own Chromium instance with a dedicated VNC server, making it perfect for displaying dashboards, cameras, or any other web content.
 
@@ -10,8 +28,8 @@ This is especially useful for older or low power devices that don't have a recen
 
 ## Installation
 
-1. Add https://github.com/MindFreeze/home-assistant-addons to the addon store repositories
-2. Install the VNC Web Browser addon
+1. Add https://github.com/liquidphire/ha-vnc-web-browser to the addon store repositories
+2. Install the **VNC Web Browser (Asian Language and Emoji Support)** addon
 3. Configure the addon as described below
 4. Start the addon
 
@@ -157,3 +175,5 @@ A native ESPHome VNC client component is in progress: [esphome/esphome#20623](ht
 - The VNC password is not considered very secure so I would advise against exposing this outside your network
 
 This addon is based on this POC https://github.com/MindFreeze/vnc-web
+
+Fork of [MindFreeze/ha-vnc-web-browser](https://github.com/MindFreeze/ha-vnc-web-browser). All credit for the addon itself goes to upstream; this fork only adds fonts.
